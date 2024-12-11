@@ -11,9 +11,9 @@ let playerCarTop = 480;     // Initial vertical position
 let enemyCarPosition = 175;
 let enemyCarTop = -80;      // Initial vertical position (start off-screen)
 let score = 0;
-let speed = 3;              // Initial enemy car speed
-let speedIncrement = 0.2;   // Amount to increase speed by
-let speedIncrementInterval = 5; // Increase speed every 5 points
+let speed = 5;              // Initial enemy car speed
+let speedIncrement = 0.5;   // Amount to increase speed by
+let speedIncrementInterval = 1; // Increase speed every 5 points
 let gameInterval;
 
 // Movement variables
