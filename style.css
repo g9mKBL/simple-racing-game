@@ -1,0 +1,85 @@
+body {
+    background-color: #696969;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#game {
+    width: 400px;
+    height: 600px;
+    background-color: #8B4513;
+    border: 4px solid #000000;
+    overflow: hidden;
+    position: relative;
+}
+
+#track {
+    width: 100%;
+    height: 100%;
+    background-color: #696969;
+    position: relative;
+}
+
+#player-car, #enemy-car {
+    width: 50px;
+    height: 80px;
+    background-color: red;
+    position: absolute;
+    bottom: 20px;
+}
+
+#enemy-car {
+    background-color: blue;
+    bottom: 500px;
+}
+
+#score {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    font-family: sans-serif;
+}
+
+#controls {
+    position: absolute;
+    bottom: 10px; /* Adjust this value if needed */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10; /* Ensure buttons are on top */
+}
+
+#controls button {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Mobile Styles */
+@media (max-width: 450px) { /* Adjust this breakpoint as needed */
+    #game {
+        width: 100%;
+        height: 100vh;
+    }
+
+    #controls {
+        bottom: 20px; /* Adjust this value for button position on mobile */
+    }
+
+    #controls button {
+        padding: 8px 16px; /* Adjust padding for smaller screens */
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+}
