@@ -1,0 +1,127 @@
+const playerCar = document.getElementById('player-car');
+const enemyCar = document.getElementById('enemy-car');
+const scoreElement = document.getElementById('score');
+
+let playerCarPosition = 175; // Initial horizontal position
+let playerCarTop = 480;     // Initial vertical position
+let enemyCarPosition = 175;
+let enemyCarTop = -80;      // Initial vertical position (start off-screen)
+let score = 0;
+let speed = 5;              // Initial enemy car speed
+let speedIncrement = 0.5;   // Amount to increase speed by
+let speedIncrementInterval = 1; // Increase speed every 5 points
+let gameInterval;
+
+// Movement variables
+let moveDistance = 10; // How far the car moves in each interval
+let moveInterval = 20; // Update position every 20 milliseconds
+let moveLeft = false;
+let moveRight = false;
+let moveUp = false;
+let moveDown = false;
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') {
+        moveLeft = true;
+    } else if (event.key === 'ArrowRight') {
+        moveRight = true;
+    } else if (event.key === 'ArrowUp') {
+        moveUp = true;
+    } else if (event.key === 'ArrowDown') {
+        moveDown = true;
+    }
+});
+
+document.addEventListener('keyup', (event) => {
+    if (event.key === 'ArrowLeft') {
+        moveLeft = false;
+    } else if (event.key === 'ArrowRight') {
+        moveRight = false;
+    } else if (event.key === 'ArrowUp') {
+        moveUp = false;
+    } else if (event.key === 'ArrowDown') {
+        moveDown = false;
+    }
+});
+
+function movePlayerCar() {
+    if (moveLeft && playerCarPosition > 0) {
+        playerCarPosition -= moveDistance;
+    }
+    if (moveRight && playerCarPosition < 350) {
+        playerCarPosition += moveDistance;
+    }
+    if (moveUp && playerCarTop > 0) {
+        playerCarTop -= moveDistance;
+    }
+    if (moveDown && playerCarTop < 520) {
+        playerCarTop += moveDistance;
+    }
+
+    playerCar.style.left = playerCarPosition + 'px';
+    playerCar.style.top = playerCarTop + 'px';
+}
+
+function moveEnemyCar() {
+    enemyCarTop += speed;
+    if (enemyCarTop > 600) {
+        enemyCarTop = -80;
+        enemyCarPosition = Math.floor(Math.random() * 350);
+
+        // Increase speed based on score
+        if (score % speedIncrementInterval === 0) {
+            speed += speedIncrement;
+        }
+
+        score++;
+        scoreElement.textContent = 'Score: ' + score;
+    }
+    enemyCar.style.top = enemyCarTop + 'px';
+    enemyCar.style.left = enemyCarPosition + 'px';
+
+    checkCollision();
+}
+
+function checkCollision() {
+    if (Math.abs(playerCarPosition - enemyCarPosition) < 50 &&
+        Math.abs(playerCarTop - enemyCarTop) < 80) {
+        gameOver();
+    }
+}
+
+function gameOver() {
+    clearInterval(gameInterval);
+    clearInterval(playerMoveInterval); // Clear movement interval
+    alert('Game Over! Score: ' + score);
+    resetGame();
+}
+
+function resetGame() {
+    playerCarPosition = 175;
+    playerCarTop = 480;
+    enemyCarPosition = 175;
+    enemyCarTop = -80;
+    score = 0;
+    speed = 3;
+
+    playerCar.style.left = playerCarPosition + 'px';
+    playerCar.style.top = playerCarTop + 'px';
+    enemyCar.style.top = enemyCarTop + 'px';
+    enemyCar.style.left = enemyCarPosition + 'px';
+    scoreElement.textContent = 'Score: ' + score;
+
+    // Start the game loop again
+    startGame();
+}
+
+function startGame() {
+    if (!gameInterval) {
+        gameInterval = setInterval(moveEnemyCar, 20);
+    }
+
+    // Use a separate interval for player movement
+    playerMoveInterval = setInterval(movePlayerCar, moveInterval);
+}
+
+let playerMoveInterval;
+startGame();
